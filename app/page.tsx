@@ -1,9 +1,12 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
+  const router = useRouter();
   return (
-    <main className="min-h-screen flex items-center justify-center px-6
-      bg-gradient-to-br from-indigo-950 via-slate-950 to-black">
+    <main className="">
       
       {/* Ambient glow */}
       <div className="absolute inset-0 -z-10">
@@ -31,7 +34,7 @@ export default function Home() {
           rounded-2xl p-6 text-left space-y-3 shadow-xl">
           <ul className="space-y-2 text-sm text-slate-300">
             <li>• Generate a secure seed phrase</li>
-            <li>• Create Solana (and Ethereum) wallets</li>
+            <li>• Create Solana wallets</li>
             <li>• View SOL & token balances</li>
             <li>• No private keys leave your browser</li>
           </ul>
@@ -41,6 +44,7 @@ export default function Home() {
         <div className="flex justify-center">
           <Button
             size="lg"
+            onClick={()=> router.push("/walletholder")}
             className="px-10 text-base font-medium
               bg-gradient-to-r from-indigo-500 to-cyan-500
               hover:from-indigo-400 hover:to-cyan-400
