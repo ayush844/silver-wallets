@@ -1,10 +1,8 @@
-"use client"
 
 import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
   return (
     <main className="">
       
@@ -42,15 +40,16 @@ export default function Home() {
 
         {/* CTA */}
         <div className="flex justify-center">
+          <Link href="/walletholder">
           <Button
             size="lg"
-            onClick={()=> router.push("/walletholder")}
             className="px-10 text-base font-medium
               bg-gradient-to-r from-indigo-500 to-cyan-500
               hover:from-indigo-400 hover:to-cyan-400
               shadow-lg shadow-indigo-500/30">
             Get Started
           </Button>
+          </Link>
         </div>
 
         {/* Footer */}

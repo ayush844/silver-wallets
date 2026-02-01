@@ -3,7 +3,7 @@
 import { generateMnemonic, mnemonicToSeedSync } from "bip39";
 import { useEffect, useState } from "react";
 import { derivePath } from "ed25519-hd-key";
-import nacl from "tweetnacl";
+// import nacl from "tweetnacl";
 import bs58 from "bs58"; 
 import { Keypair } from "@solana/web3.js";
 
@@ -20,8 +20,27 @@ const page = () => {
     const [wallets, setWallets] = useState<Wallet[]>([]);
 
 useEffect(()=>{
-    handleMneomonic();
+    const savedMnemonic = localStorage.getItem("mnemonic");
+    const savedWallets = localStorage.getItem("wallets");
+
+    if (savedMnemonic && savedWallets) {
+        setMneomonicWords(savedMnemonic.split(" "));
+        setWallets(JSON.parse(savedWallets));
+    }
 }, [])
+
+useEffect(() => {
+  if (mneomonicWords.length > 0) {
+    localStorage.setItem("mnemonic", mneomonicWords.join(" "));
+  }
+}, [mneomonicWords]);
+
+useEffect(() => {
+  if (wallets.length > 0) {
+    localStorage.setItem("wallets", JSON.stringify(wallets));
+  }
+}, [wallets]);
+
 
 const handleMneomonic = () =>{
     const mneomonic = generateMnemonic();
@@ -32,8 +51,13 @@ const handleMneomonic = () =>{
     const seed = mnemonicToSeedSync(mneomonic);
     console.log("Derived Seed:", seed.toString("hex"));
 
-    const myWallet: Wallet | null = generateWallets("501", mneomonic, 0); // Solana path type is 501'
+    const myWallet: Wallet | null = generateWallets("501", mneomonic, wallets.length); // Solana path type is 501'
+    if (!myWallet) {
+        console.error("Failed to generate wallet");
+        return;
+    }
 
+    setWallets((wallets)=> [...wallets, myWallet]);
 
 }
 
